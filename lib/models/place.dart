@@ -1,11 +1,11 @@
 import 'dart:io';
 
 class PlaceLocation {
-  final String longitude;
-  final String latitude;
+  final double longitude;
+  final double latitude;
   final String address;
 
-  PlaceLocation(
+  const PlaceLocation(
     this.address, {
     required this.latitude,
     required this.longitude,

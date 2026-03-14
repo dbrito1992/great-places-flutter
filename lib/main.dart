@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => GreatPlacesProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Great Places',
         theme: ThemeData(
           appBarTheme: AppBarThemeData(
             backgroundColor: Colors.indigo,
