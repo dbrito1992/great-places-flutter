@@ -12,15 +12,18 @@ class GreatPlacesProvider with ChangeNotifier {
 
   Future<void> loadPlaces() async {
     final dataList = await DbUltils.getPlaces('places');
-    PlaceLocation location = PlaceLocation("", latitude: 0.0, longitude: 0.0);
 
     _items = dataList
         .map(
           (item) => Place(
             id: item['id'],
-            location: location,
             title: item['title'],
-            image: item['image'],
+            image: File(item['image']),
+            location: PlaceLocation(
+              item['address'],
+              latitude: item['latitude'],
+              longitude: item['longitude'],
+            ),
           ),
         )
         .toList();
@@ -54,10 +57,13 @@ class GreatPlacesProvider with ChangeNotifier {
     );
 
     _items.add(newPlace);
-    DbUltils.insert('places', {
+    await DbUltils.insert('places', {
       "id": newPlace.id,
       "title": newPlace.title,
       "image": newPlace.image.path,
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+      "address": address,
     });
     notifyListeners();
   }

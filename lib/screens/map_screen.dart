@@ -23,6 +23,18 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedPosition;
 
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.isReadyOnly) {
+      _pickedPosition = LatLng(
+        widget.initialCameraPosition.latitude,
+        widget.initialCameraPosition.longitude,
+      );
+    }
+  }
+
   void _selectedPosition(LatLng position) {
     setState(() {
       _pickedPosition = position;
@@ -55,10 +67,14 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 13,
         ),
         onTap: widget.isReadyOnly ? null : _selectedPosition,
-        markers: {
-          if (_pickedPosition != null)
-            Marker(markerId: const MarkerId('p1'), position: _pickedPosition!),
-        },
+        markers: _pickedPosition == null
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('p1'),
+                  position: _pickedPosition!,
+                ),
+              },
       ),
     );
   }
